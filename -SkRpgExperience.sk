@@ -1,0 +1,29 @@
+
+command /skExpmobset <integer>:
+	permission: skrpg.experience.mobkill.set
+	description: Set the amount of experience gained for every mob kill
+	usage: /skExpmobset <amount>
+	trigger:
+		player has permission "skrpg.experience.mobkill.set":
+			set {skrpg.experience.mobkill} to integer argument
+			message "You will gain <aqua>%{skrpg.experience.mobkill}% <white>experience by killing a mob"
+
+command /skExp:
+	permission: skrpg.experience.show
+	description: Show how much experience you have
+	trigger:
+		player has permission "skrpg.experience.show":
+			message "You have <aqua>%{skrpg.%player%.experience.total}% <white>experience"
+		else: 
+			message "You don't have the required permission"
+
+variables:
+	{skrpg.experience.mobkill} = 1
+
+on death:
+	attacker is a player
+	add 1 to {skrpg.%player%.experience.total}
+	message "Gained <aqua>%{skrpg.experience.mobkill}% <white>from killing a <aqua>%victim%"
+
+
+on death of player:

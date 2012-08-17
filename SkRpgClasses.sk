@@ -1,0 +1,45 @@
+
+variables:
+	{skrpg.%player%.classes.haschosen} = false
+
+command /skClasschoose <text>:
+	permission: skrpg.class.choose.%text argument%
+	description: Chose a class
+	usage: /skClasschoose <classname>
+	trigger:
+		if text argument is "Archer":
+			player has permission "skrpg.class.choose.%text argument%":
+				if {skrpg.%player%.classes.haschosen} is false:
+					set {skrpg.%player%.classes.chosen} to text argument
+					set {skrpg.%player%.classes.haschosen} to true
+					message "You have chosen: <aqua>%{skrpg.%player%.classes.chosen}%"
+					stop
+				else:
+					message "You have already chosen a class"
+					message "Use /skClassreset to reset"
+					stop
+			else:
+				message "You do not have the required permission for this class"
+				stop
+		else:
+			message "This is not a valid class"
+			message "Use /skClasslist for a list of valid classes"
+			stop
+
+command /skClass:
+	permission: skrpg.classes.show
+	description: Show class details
+	trigger:
+		player has permission "skrpg.classes.show":
+			if {skrpg.%player%.classes.haschosen} is true:
+				message "Class: <aqua><b>%{skrpg.%player%.classes.chosen}%"
+				message "Mana: <aqua><b>%{skrpg.%player%.classes.Archer.mana}%"
+				message "Bindings: <b><aqua>%{skrpg.%player%.spells.bindspell}% <white><b>is bound to <b><aqua>%{skrpg.%player%.spells.binditem}%"
+			else:
+				message "You have not chosen a class"
+				message "Use /skClasschoose <classname> to choose one"
+				stop
+		else:
+			message "You do not have the required permission"
+			stop
+

@@ -1,0 +1,13 @@
+variables:
+	{skrpg.%player%.classes.Archer.mana} = 100
+
+on right click:
+	player is holding {skrpg.%player%.spells.bind.test}:
+		block above target block is air:
+			set block above target block to fire
+			message "Inferno!"
+			set {skrpg.%player%.classes.Archer.mana} to 100
+			remove 10 from {skrpg.%player%.classes.Archer.mana}
+			message "Mana: <aqua><b>%{skrpg.%player%.classes.Archer.mana}%"
+			wait 3 seconds
+			delete block above

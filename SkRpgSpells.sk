@@ -1,0 +1,18 @@
+command /skSpells:
+	permission: skrpg.spells.show
+	description: Show usable spells
+	trigger:
+		player has permission "skrpg.spells.show":
+			message "These are the usable spells:"
+			message "<aqua>Test"
+
+command /skSpellsbind <item> <text>:
+	permission: skrpg.spells.binditem
+	description: Bind a spell to an item.
+	usage: /skRpg bind <item> <spellname>
+	trigger:
+		player has permission "skrpg.spells.use.%text argument%":
+			if text argument is "test":
+				set {skrpg.%player%.spells.binditem} to item argument
+				set {skrpg.%player%.spells.bindspell} to text argument
+				message "<aqua>%{skrpg.%player%.spells.bindspell}% <white>has been bound to <aqua>%{skrpg.%player%.spells.binditem}%"
