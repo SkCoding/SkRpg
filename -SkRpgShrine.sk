@@ -1,0 +1,6 @@
+on right click on diamond block with a book:
+	loop blocks in radius 1.75 around clicked block:
+		loop-blocks is bookshelves:
+			player has permission "skrpg.gods.chosen.Purus":
+				message "A holy shrine of knowledge"
+				give a book to player

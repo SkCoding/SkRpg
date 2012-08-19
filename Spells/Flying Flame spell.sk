@@ -1,0 +1,12 @@
+variables:
+	{skrpg.%player%.spells.cooldownover.FlyingFlame} = true
+
+
+on rightclick:
+	player is holding {skrpg.%player%.spells.binditem.FlyingFlame}:
+		if {skrpg.%player%.classes.currentmana} is greater than 20:
+			shoot a fireball
+		else:
+			message "You need <aqua>20 mana for this spell"
+				
+					

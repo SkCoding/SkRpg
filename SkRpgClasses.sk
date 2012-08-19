@@ -2,6 +2,17 @@
 variables:
 	{skrpg.%player%.classes.haschosen} = false
 
+command /skClassreset:
+	permission: skrpg.class.reset
+	description: Leave your class
+	trigger:
+		if {skrpg.%player%.classes.haschosen} is false:
+			message "You haven't chose a class"
+			message "Use /skClasschoose <classname> to choose a class"
+		if {skrpg.%player%.classes.haschosen} is true:
+			set {skrpg.%player%.classes.haschosen} to false
+			message "You have left the <aqua>%{skrpg.%player%.classes.chosen}% <white>class"
+
 command /skClasschoose <text>:
 	permission: skrpg.class.choose.%text argument%
 	description: Chose a class
@@ -12,6 +23,7 @@ command /skClasschoose <text>:
 				if {skrpg.%player%.classes.haschosen} is false:
 					set {skrpg.%player%.classes.chosen} to text argument
 					set {skrpg.%player%.classes.haschosen} to true
+					set {skrpg.%player%.classes.maxmana} to 100
 					message "You have chosen: <aqua>%{skrpg.%player%.classes.chosen}%"
 					stop
 				else:
@@ -32,9 +44,9 @@ command /skClass:
 	trigger:
 		player has permission "skrpg.classes.show":
 			if {skrpg.%player%.classes.haschosen} is true:
-				message "Class: <aqua><b>%{skrpg.%player%.classes.chosen}%"
-				message "Mana: <aqua><b>%{skrpg.%player%.classes.Archer.mana}%"
-				message "Bindings: <b><aqua>%{skrpg.%player%.spells.bindspell}% <white><b>is bound to <b><aqua>%{skrpg.%player%.spells.binditem}%"
+				message "<b>Class: <aqua><b>%{skrpg.%player%.classes.chosen}%"
+				message "<b>Mana: <aqua><b>%{skrpg.%player%.classes.currentmana}% <white>/ <aqua>%{skrpg.%player%.classes.maxmana}%"
+				message "<b>Bindings: <b><aqua>%{skrpg.%player%.spells.bindspell}% <white><b>is bound to <b><aqua>%{skrpg.%player%.spells.binditem}%"
 			else:
 				message "You have not chosen a class"
 				message "Use /skClasschoose <classname> to choose one"
@@ -42,4 +54,11 @@ command /skClass:
 		else:
 			message "You do not have the required permission"
 			stop
+
+every 2 real seconds:
+	loop players:
+		if {skrpg.%loop-players%.classes.currentmana} is smaller than {skrpg.%loop-players%.classes.maxmana}:
+			add 1 to {skrpg.%loop-players%.classes.currentmana}
+		if {skrpg.%loop-players%.classes.currentmana} is not smaller than {skrpg.%loop-players%.classes.maxmana}:
+			stop	
 

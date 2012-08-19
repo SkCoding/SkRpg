@@ -1,0 +1,7 @@
+on rightclick:
+	player is holding {skrpg.%player%.spells.binditem.Blink}:
+		loop blocks above targeted block:
+			loop-block is air
+			block above loop-block is air
+			teleport player to loop-block
+			stop trigger

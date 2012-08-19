@@ -1,0 +1,25 @@
+
+
+on rightclick:
+	player is holding {skrpg.%player%.spells.binditem.Inferno}:
+		if {skrpg.%player%.classes.currentmana} is greater than 10:
+			if {skrpg.%player%.spells.cooldownover.Inferno} is true:
+				if block above is air:
+					set {skrpg.%player%.spells.cooldownover.Inferno} to false
+					remove 10 from {skrpg.%player%.classes.currentmana}
+					message "<b>Mana: <aqua><b>%{skrpg.%player%.classes.currentmana}% <white>/ <aqua>%{skrpg.%player%.classes.maxmana}%" 
+					set block above to fire
+					wait 2 seconds
+					set {skrpg.%player%.spells.cooldownover.Inferno} to true
+					wait 1 second
+					set block above to air
+					stop
+				else:
+					stop
+			else:
+				stop
+		else:
+			message "You need <aqua>10 mana for this spell"
+	else:
+		stop
+					

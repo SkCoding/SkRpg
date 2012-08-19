@@ -9,10 +9,47 @@ command /skSpells:
 command /skSpellsbind <item> <text>:
 	permission: skrpg.spells.binditem
 	description: Bind a spell to an item.
-	usage: /skRpg bind <item> <spellname>
+	usage: /skSpellsbind bind <item> <spellname>
 	trigger:
 		player has permission "skrpg.spells.use.%text argument%":
-			if text argument is "test":
-				set {skrpg.%player%.spells.binditem} to item argument
-				set {skrpg.%player%.spells.bindspell} to text argument
+			if text argument is "Inferno":
+				add 1 to {skrpg.%player%.spells.bindcount}
+				set {skrpg.%player%.spells.binditem.Inferno} to item argument
+				set {skrpg.%player%.spells.bindspell.Inferno} to "Inferno"
 				message "<aqua>%{skrpg.%player%.spells.bindspell}% <white>has been bound to <aqua>%{skrpg.%player%.spells.binditem}%"
+			if text argument is "FlyingFlame":
+				add 1 to {skrpg.%player%.spells.bindcount}
+
+				set {skrpg.%player%.spells.binditem.FlyingFlame} to item argument
+				set {skrpg.%player%.spells.bindspell.FlyingFlame} to "FlyingFlame"
+				message "<aqua>%{skrpg.%player%.spells.bindspell.FlyingFlame}% <white>has been bound to <aqua>%{skrpg.%player%.spells.binditem.FlyingFlame}%"
+			if text argument is "Blink":
+				add 1 to {skrpg.%player%.spells.bindcount}
+				set {skrpg.%player%.spells.binditem.Blink} to item argument
+				set {skrpg.%player%.spells.bindspell.Blink} to "Blink"
+				message "<aqua>%{skrpg.%player%.spells.bindspell.Blink}% <white>has been bound to <aqua>%{skrpg.%player%.spells.binditem.Blink}%"
+
+
+command /skSpellsunbind <item> <text>:
+	permission: skrpg.spells.unbinditem
+	description: Unbind a spell from an item.
+	usage: /skSpellsunbind <item> <spellname>
+	trigger:
+		player has permission "skrpg.spells.unbinditem":
+			message "<aqua>%text argument% <white>has been unbound from <aqua>%{skrpg.%player%.spells.binditem.%text argument%}%"
+			clear {skrpg.%player%.spells.binditem.%text argument%}
+			clear {skrpg.%player%.spells.bindspell.%text argument%}
+			remove 1 from {skrpg.%player%.spells.bindcount}
+			stop
+		else:
+			message "You don't have the required permission"
+			
+
+command /skSpell <text>:
+	permission: skrpg.spells.use.%item argument%
+	usage: /skSpell <spellname>
+	description: Use a spell
+	trigger:
+		player has permission "skrpg.spells.show.%text argument%":
+			if text argument is "Inferno":
+				message "Casts fire onto the targeted block"
